@@ -2,7 +2,7 @@ defmodule Dashboard.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Dashboard.Web.RoomChannel
+  channel "backend:*", Dashboard.Web.BackendChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

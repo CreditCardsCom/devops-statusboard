@@ -16,7 +16,7 @@ defmodule Dashboard.Worker do
     end
 
     Cache.put(backend, data)
-    Endpoint.broadcast!(backend.name(), "sync",
+    Endpoint.broadcast!("backend:sync", backend.name(),
                         BackendView.render("show.json", backend: data))
 
     Process.sleep(30_000)
