@@ -18,7 +18,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 Configure which backends are currently being used.
 
 ```elixir
-config :dashboard, Dashboard.Backend,
+config :dashboard,
   backends: [
     Dashboard.Backend.Pingdom,
     Dashboard.Backend.TravisCI,

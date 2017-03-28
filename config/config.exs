@@ -7,7 +7,12 @@ use Mix.Config
 
 # General application configuration
 config :dashboard,
-  ecto_repos: [Dashboard.Repo]
+  ecto_repos: [Dashboard.Repo],
+  backends: [
+    Dashboard.Backend.Pingdom,
+    Dashboard.Backend.TravisCI,
+    Dashboard.Backend.StatusPage
+  ]
 
 # Configures the endpoint
 config :dashboard, Dashboard.Web.Endpoint,
@@ -21,13 +26,6 @@ config :dashboard, Dashboard.Web.Endpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
-
-config :dashboard, Dashboard.Backend,
-  backends: [
-    Dashboard.Backend.Pingdom,
-    Dashboard.Backend.TravisCI,
-    Dashboard.Backend.StatusPage
-  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

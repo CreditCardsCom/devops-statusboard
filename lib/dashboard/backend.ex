@@ -10,8 +10,7 @@ defmodule Dashboard.Backend do
   end
 
   def configured do
-    Application.get_env(:dashboard, __MODULE__, [])
-    |> Keyword.get(:backends, [])
+    Application.get_env(:dashboard, :backends, [])
   end
 
   def for(name) do
