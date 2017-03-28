@@ -38,7 +38,8 @@ defmodule Dashboard.Mixfile do
      {:cowboy, "~> 1.0"},
      {:poison, "~> 3.1"},
      {:httpoison, "~> 0.11.1"},
-     {:cors_plug, "~> 1.2"}]
+     {:cors_plug, "~> 1.2"},
+     {:distillery, "~> 1.3"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
