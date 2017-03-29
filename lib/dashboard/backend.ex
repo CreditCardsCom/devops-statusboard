@@ -3,7 +3,7 @@ defmodule Dashboard.Backend do
   Defines a single remote backend that will be loaded as a worker process.
   """
 
-  @callback load() :: {:ok, [Map.t]}, | {:error, String.t}
+  @callback load() :: {:ok, [Map.t]} | {:error, String.t}
 
   defmacro __using__(opts) do
     quote do
