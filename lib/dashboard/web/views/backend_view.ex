@@ -1,6 +1,7 @@
 defmodule Dashboard.Web.BackendView do
   use Dashboard.Web, :view
-  alias Dashboard.Web.BackendView
+
+  alias Dashboard.Web.{BackendView, Endpoint, Router}
 
   def render("index.json", %{backends: backends}) do
     %{data: render_many(backends, BackendView, "backends.json")}
@@ -21,7 +22,7 @@ defmodule Dashboard.Web.BackendView do
 
     %{
       name: name,
-      slug: module.name()
+      href: Router.Helpers.backend_path(Endpoint, :show, module.name())
     }
   end
 end
