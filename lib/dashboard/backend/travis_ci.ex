@@ -9,7 +9,7 @@ defmodule Dashboard.Backend.TravisCI do
     "include" => "repository.current_build,build.commit"
   }
 
-  @mappedKeys ~w(slug @href current_build.state current_build.commit.author)
+  @mappedKeys ~w(name slug current_build)
 
   alias Dashboard.Backend.Utils
 
@@ -69,8 +69,5 @@ defmodule Dashboard.Backend.TravisCI do
   # Map out the repo into the standard datastructure
   defp map(repo) do
     Utils.deepTake(repo, @mappedKeys)
-    |> Enum.into(%{}, fn({key, value}) ->
-      {String.trim_leading(key, "@"), value}
-    end)
   end
 end

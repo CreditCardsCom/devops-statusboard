@@ -1,7 +1,8 @@
 defmodule Dashboard.Backend.Pingdom do
   use Dashboard.Backend, name: "pingdom"
 
-  @mappedKeys ~w(hostname status tags lastresponsetime type.http.url)
+  @mappedKeys ~w(name hostname status tags
+                 lastresponsetime type.http.url type.http.port)
 
   alias Dashboard.Backend.Utils
 
@@ -26,7 +27,16 @@ defmodule Dashboard.Backend.Pingdom do
       checks
       |> Enum.map(&Map.fetch!(&1, "id"))
       |> Task.async_stream(__MODULE__, :load, [])
-      |> Enum.map(&map(elem(&1, 1)))
+      |> Enum.map(fn({:ok, result}) ->
+        case result do
+          {:error, _} -> nil
+          value -> map(value)
+        end
+      end)
+      |> Enum.filter(&(&1 !== nil))
+    else
+      :error -> {:error, "unknown error"}
+      {:error, message} -> {:error, message}
     end
   end
 
@@ -34,8 +44,14 @@ defmodule Dashboard.Backend.Pingdom do
     with {:ok, resp} <- HTTPoison.get(build_url(id), headers()),
          {:ok, body} <- Map.fetch(resp, :body),
          {:ok, response} <- Poison.decode(body),
-         {:ok, check} <- Map.fetch(response, "check"),
-         do: check
+         {:ok, check} <- Map.fetch(response, "check")
+    do
+      check
+    else
+      :error -> {:error, "unknown error"}
+      {:error, error = %HTTPoison.Error{}} -> {:error, HTTPoison.Error.message(error)}
+      {:error, message} -> {:error, message}
+    end
   end
 
   defp build_url, do: "https://api.pingdom.com/api/2.0/checks"
