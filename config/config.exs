@@ -29,4 +29,11 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
+
 import_config "#{Mix.env}.exs"
+
+try do
+  import_config "#{Mix.env}.secret.exs"
+rescue
+  Mix.Config.LoadError -> IO.puts("No secrets config found for #{Mix.env}")
+end
