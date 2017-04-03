@@ -17,3 +17,6 @@ config :dashboard, Dashboard.Repo,
   database: "dashboard_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :dashboard,
+  backends: []

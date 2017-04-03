@@ -8,8 +8,6 @@ defmodule Dashboard.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
-      # supervisor(Dashboard.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Dashboard.Web.Endpoint, []),
       # Start the cache store prior to loading workers

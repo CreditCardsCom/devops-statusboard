@@ -7,7 +7,7 @@ use Mix.Config
 
 # General application configuration
 config :dashboard,
-  ecto_repos: [Dashboard.Repo],
+  ecto_repos: [],
   backends: [
     Dashboard.Backend.Pingdom,
     Dashboard.Backend.TravisCI,
