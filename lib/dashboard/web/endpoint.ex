@@ -30,7 +30,7 @@ defmodule Dashboard.Web.Endpoint do
     key: "_dashboard_key",
     signing_salt: "jydBM/oM"
 
-  plug CORSPlug, origin: ["http://localhost:4200", "https://dashboard.in.creditcards.com"]
+  plug CORSPlug, origin: ["http://localhost:4200", "http://statusboard.in.creditcards.com"]
   plug Dashboard.Web.Router
 
   @doc """
