@@ -1,7 +1,7 @@
 defmodule Dashboard.Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :dashboard
 
-  socket "/socket", Dashboard.Web.UserSocket
+  socket "/events", Dashboard.Web.UserSocket
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
