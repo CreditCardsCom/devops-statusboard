@@ -9,12 +9,11 @@ otp_release:
   - 19.2
 
 before_deploy:
-  - git clone git@github.com:CreditcCardsCom/pipeline-scripts.git
   - MIX_ENV=prod mix release
 
 deploy:
   provider: script
-  script: pipeline-scripts/docker/publish.sh
+  script: docker/publish.sh
   skip_cleanup: true
   on:
     tags: true
