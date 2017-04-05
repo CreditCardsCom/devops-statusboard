@@ -1,5 +1,7 @@
 # Dashboard
 
+[![Build Status](https://travis-ci.org/CreditCardsCom/devops-statusboard.svg?branch=master)](https://travis-ci.org/CreditCardsCom/devops-statusboard)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
