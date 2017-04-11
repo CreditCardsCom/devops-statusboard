@@ -11,8 +11,6 @@ defmodule Dashboard.Backend.TravisCI do
 
   @mappedKeys ~w(name slug current_build)
 
-  alias Dashboard.Backend.Utils
-
   defp headers do
     Keyword.new
     |> Keyword.put(:"Authorization", "token #{get_token()}")
@@ -68,6 +66,6 @@ defmodule Dashboard.Backend.TravisCI do
 
   # Map out the repo into the standard datastructure
   defp map(repo) do
-    Utils.deepTake(repo, @mappedKeys)
+    deepTake(repo, @mappedKeys)
   end
 end

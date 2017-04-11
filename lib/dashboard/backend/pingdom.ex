@@ -4,8 +4,6 @@ defmodule Dashboard.Backend.Pingdom do
   @mappedKeys ~w(name hostname status tags
                  lastresponsetime type.http.url type.http.port)
 
-  alias Dashboard.Backend.Utils
-
   defp headers do
     config = Application.fetch_env!(:dashboard, __MODULE__)
     email = Keyword.get(config, :email, "")
@@ -59,7 +57,7 @@ defmodule Dashboard.Backend.Pingdom do
 
   # Map out the check into the standard datastructure
   defp map(check) do
-    Utils.deepTake(check, @mappedKeys)
+    deepTake(check, @mappedKeys)
     |> Map.update!("tags", &Enum.map(&1, fn(tag) -> tag["name"] end))
   end
 end

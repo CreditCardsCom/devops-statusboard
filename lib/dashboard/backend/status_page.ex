@@ -3,8 +3,6 @@ defmodule Dashboard.Backend.StatusPage do
 
   @mappedKeys ~w(name description status)
 
-  alias Dashboard.Backend.Utils
-
   defp headers do
     token =
       Application.fetch_env!(:dashboard, __MODULE__)
@@ -30,6 +28,6 @@ defmodule Dashboard.Backend.StatusPage do
   defp build_url, do: "https://api.statuspage.io/v1/pages/b9nfj74m4nvc/components.json"
 
   defp map(map) do
-    Utils.deepTake(map, @mappedKeys)
+    deepTake(map, @mappedKeys)
   end
 end

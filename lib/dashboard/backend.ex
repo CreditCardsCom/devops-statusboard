@@ -9,6 +9,8 @@ defmodule Dashboard.Backend do
     quote do
       @behaviour Dashboard.Backend
 
+      import Dashboard.Backend, only: [deepTake: 2]
+
       def name, do: unquote(opts)[:name]
     end
   end
@@ -31,5 +33,22 @@ defmodule Dashboard.Backend do
   @spec for(String.t) :: module()
   def for(name) do
     Enum.find(configured(), &(&1.name == name))
+  end
+
+  @doc """
+  Take the attribute from `map` for `key` returning a new map with only that key
+
+  Returns `Map.t`
+  """
+  @spec deepTake(Map.t, [String.t]) :: Map.t
+  def deepTake(_, []), do: %{}
+  def deepTake(map, [key | rest]) do
+    keys = String.split(key, ".")
+
+    case get_in(map, keys) do
+      nil -> %{}
+      value -> %{} |> Map.put(List.last(keys), value)
+    end
+    |> Map.merge(deepTake(map, rest))
   end
 end
