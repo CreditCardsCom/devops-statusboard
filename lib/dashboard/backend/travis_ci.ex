@@ -5,7 +5,6 @@ defmodule Dashboard.Backend.TravisCI do
   @travisParams %{
     "repository.active" => "true",
     "sort_by" => "current_build:desc",
-    "limit" => "15",
     "include" => "repository.current_build,build.commit"
   }
 
@@ -24,8 +23,7 @@ defmodule Dashboard.Backend.TravisCI do
          {:ok, response} <- Poison.decode(body),
          {:ok, repos} <- Map.fetch(response, "repositories")
     do
-      repos
-      |> Enum.map(&map(&1))
+      {:ok, Enum.map(repos, &map(&1))}
     else
       {:error, error} -> {:error, error}
       :error -> {:error, "unknown error"}

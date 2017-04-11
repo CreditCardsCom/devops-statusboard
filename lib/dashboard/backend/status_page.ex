@@ -17,11 +17,7 @@ defmodule Dashboard.Backend.StatusPage do
          {:ok, body} <- Map.fetch(resp, :body),
          {:ok, components} <- Poison.decode(body)
     do
-      components
-      |> Enum.sort_by(&(&1["updated_at"]))
-      |> Enum.reverse
-      |> Enum.take(10)
-      |> Enum.map(&map(&1))
+      {:ok, Enum.map(components, &map(&1))}
     end
   end
 

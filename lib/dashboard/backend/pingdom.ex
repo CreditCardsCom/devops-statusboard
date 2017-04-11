@@ -22,16 +22,18 @@ defmodule Dashboard.Backend.Pingdom do
          {:ok, response} <- Poison.decode(body),
          {:ok, checks} <- Map.fetch(response, "checks")
     do
-      checks
+      data = checks
       |> Enum.map(&Map.fetch!(&1, "id"))
       |> Task.async_stream(__MODULE__, :load, [])
       |> Enum.map(fn({:ok, result}) ->
         case result do
-          {:error, _} -> nil
-          value -> map(value)
+          {:ok, value} -> map(value)
+          _ -> nil
         end
       end)
       |> Enum.filter(&(&1 !== nil))
+
+      {:ok, data}
     else
       :error -> {:error, "unknown error"}
       {:error, message} -> {:error, message}
@@ -44,7 +46,7 @@ defmodule Dashboard.Backend.Pingdom do
          {:ok, response} <- Poison.decode(body),
          {:ok, check} <- Map.fetch(response, "check")
     do
-      check
+      {:ok, check}
     else
       :error -> {:error, "unknown error"}
       {:error, error = %HTTPoison.Error{}} -> {:error, HTTPoison.Error.message(error)}
