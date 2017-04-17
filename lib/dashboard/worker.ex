@@ -8,18 +8,18 @@ defmodule Dashboard.Worker do
   end
 
   def work(backend) do
-    # TODO: Remove this block once backends have a standard error format
     data = case backend.load() do
-      :error -> []
-      {:error, _} -> []
-      data -> data
+      {:ok, data} -> data
+      {:error, _} -> nil
     end
 
-    Cache.put(backend, data)
-    Endpoint.broadcast!("backend:sync", backend.name(),
-                        BackendView.render("show.json", backend: data))
+    if data != nil do
+      Cache.put(backend, data)
+      Endpoint.broadcast!("backend:sync", backend.name(),
+                          BackendView.render("show.json", backend: data))
+    end
 
-    Process.sleep(30_000)
+    Process.sleep(backend.interval())
 
     work(backend)
   end

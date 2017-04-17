@@ -22,7 +22,8 @@ defmodule Dashboard.Web.BackendView do
 
     %{
       name: name,
-      href: Router.Helpers.backend_path(Endpoint, :show, module.name())
+      href: Router.Helpers.backend_path(Endpoint, :show, module.name()),
+      interval: module.interval()
     }
   end
 end

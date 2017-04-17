@@ -1,10 +1,8 @@
 defmodule Dashboard.Backend.Pingdom do
-  use Dashboard.Backend, name: "pingdom"
+  use Dashboard.Backend, name: "pingdom", interval: 15_000
 
   @mappedKeys ~w(name hostname status tags
                  lastresponsetime type.http.url type.http.port)
-
-  alias Dashboard.Backend.Utils
 
   defp headers do
     config = Application.fetch_env!(:dashboard, __MODULE__)
@@ -24,16 +22,19 @@ defmodule Dashboard.Backend.Pingdom do
          {:ok, response} <- Poison.decode(body),
          {:ok, checks} <- Map.fetch(response, "checks")
     do
-      checks
+      data = checks
       |> Enum.map(&Map.fetch!(&1, "id"))
       |> Task.async_stream(__MODULE__, :load, [])
       |> Enum.map(fn({:ok, result}) ->
         case result do
-          {:error, _} -> nil
-          value -> map(value)
+          {:ok, value} -> map(value)
+          _ -> nil
         end
       end)
       |> Enum.filter(&(&1 !== nil))
+      |> Enum.sort(&compare/2)
+
+      {:ok, data}
     else
       :error -> {:error, "unknown error"}
       {:error, message} -> {:error, message}
@@ -46,7 +47,7 @@ defmodule Dashboard.Backend.Pingdom do
          {:ok, response} <- Poison.decode(body),
          {:ok, check} <- Map.fetch(response, "check")
     do
-      check
+      {:ok, check}
     else
       :error -> {:error, "unknown error"}
       {:error, error = %HTTPoison.Error{}} -> {:error, HTTPoison.Error.message(error)}
@@ -59,7 +60,12 @@ defmodule Dashboard.Backend.Pingdom do
 
   # Map out the check into the standard datastructure
   defp map(check) do
-    Utils.deepTake(check, @mappedKeys)
+    deepTake(check, @mappedKeys)
     |> Map.update!("tags", &Enum.map(&1, fn(tag) -> tag["name"] end))
   end
+
+  @spec compare(map(), map()) :: boolean()
+  defp compare(%{"status" => a}, %{"status" => b}) when a == b, do: false
+  defp compare(%{"status" => "down"}, %{"status" => _}), do: true
+  defp compare(%{"status" => _}, %{"status" => _}), do: false
 end

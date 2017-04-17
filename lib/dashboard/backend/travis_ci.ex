@@ -1,17 +1,14 @@
 defmodule Dashboard.Backend.TravisCI do
-  use Dashboard.Backend, name: "travis"
+  use Dashboard.Backend, name: "travis", interval: 15_000
 
   @travisUrl "https://api.travis-ci.com"
   @travisParams %{
     "repository.active" => "true",
     "sort_by" => "current_build:desc",
-    "limit" => "15",
     "include" => "repository.current_build,build.commit"
   }
 
   @mappedKeys ~w(name slug current_build)
-
-  alias Dashboard.Backend.Utils
 
   defp headers do
     Keyword.new
@@ -26,8 +23,11 @@ defmodule Dashboard.Backend.TravisCI do
          {:ok, response} <- Poison.decode(body),
          {:ok, repos} <- Map.fetch(response, "repositories")
     do
-      repos
-      |> Enum.map(&map(&1))
+      data = repos
+        |> Enum.map(&map(&1))
+        |> Enum.sort(&compare/2)
+
+      {:ok, data}
     else
       {:error, error} -> {:error, error}
       :error -> {:error, "unknown error"}
@@ -68,6 +68,15 @@ defmodule Dashboard.Backend.TravisCI do
 
   # Map out the repo into the standard datastructure
   defp map(repo) do
-    Utils.deepTake(repo, @mappedKeys)
+    deepTake(repo, @mappedKeys)
   end
+
+  @spec compare(map(), map()) :: boolean()
+  defp compare(%{"current_build" => %{"state" => a}}, %{"current_build" => %{"state" => b}}) when a == b, do: false
+  defp compare(%{"current_build" => %{"state" => "started"}}, %{"current_build" => %{"state" => _}}), do: true
+  defp compare(%{"current_build" => %{"state" => "failed"}}, %{"current_build" => %{"state" => "started"}}), do: false
+  defp compare(%{"current_build" => %{"state" => "failed"}}, %{"current_build" => %{"state" => _}}), do: true
+  defp compare(%{"current_build" => %{"state" => "errored"}}, %{"current_build" => %{"state" => "failed"}}), do: false
+  defp compare(%{"current_build" => %{"state" => "errored"}}, %{"current_build" => %{"state" => _}}), do: true
+  defp compare(%{"current_build" => %{"state" => "passed"}}, %{"current_build" => %{"state" => _}}), do: false
 end
