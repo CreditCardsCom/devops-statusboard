@@ -32,6 +32,7 @@ defmodule Dashboard.Backend.Pingdom do
         end
       end)
       |> Enum.filter(&(&1 !== nil))
+      |> Enum.sort(&compare/2)
 
       {:ok, data}
     else
@@ -62,4 +63,9 @@ defmodule Dashboard.Backend.Pingdom do
     deepTake(check, @mappedKeys)
     |> Map.update!("tags", &Enum.map(&1, fn(tag) -> tag["name"] end))
   end
+
+  @spec compare(map(), map()) :: boolean()
+  defp compare(%{"status" => a}, %{"status" => b}) when a == b, do: false
+  defp compare(%{"status" => "down"}, %{"status" => _}), do: true
+  defp compare(%{"status" => _}, %{"status" => _}), do: false
 end
