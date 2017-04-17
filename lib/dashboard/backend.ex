@@ -3,7 +3,7 @@ defmodule Dashboard.Backend do
   Defines a single remote backend that will be loaded as a worker process.
   """
 
-  @callback load() :: {:ok, [Map.t]} | {:error, String.t}
+  @callback load :: {:ok, [Map.t]} | {:error, String.t}
 
   defmacro __using__(opts) do
     quote do
@@ -12,6 +12,7 @@ defmodule Dashboard.Backend do
       import Dashboard.Backend, only: [deepTake: 2]
 
       def name, do: unquote(opts)[:name]
+      def interval, do: Keyword.get(unquote(opts), :interval, 30_000)
     end
   end
 

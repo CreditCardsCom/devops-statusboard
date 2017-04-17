@@ -1,5 +1,5 @@
 defmodule Dashboard.Backend.Pingdom do
-  use Dashboard.Backend, name: "pingdom"
+  use Dashboard.Backend, name: "pingdom", interval: 15_000
 
   @mappedKeys ~w(name hostname status tags
                  lastresponsetime type.http.url type.http.port)

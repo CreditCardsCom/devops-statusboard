@@ -1,5 +1,5 @@
 defmodule Dashboard.Backend.TravisCI do
-  use Dashboard.Backend, name: "travis"
+  use Dashboard.Backend, name: "travis", interval: 15_000
 
   @travisUrl "https://api.travis-ci.com"
   @travisParams %{

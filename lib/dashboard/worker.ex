@@ -19,7 +19,7 @@ defmodule Dashboard.Worker do
                           BackendView.render("show.json", backend: data))
     end
 
-    Process.sleep(30_000)
+    Process.sleep(backend.interval())
 
     work(backend)
   end
