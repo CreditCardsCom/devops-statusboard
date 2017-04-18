@@ -72,7 +72,9 @@ defmodule Dashboard.Backend.TravisCI do
   end
 
   @spec compare(map(), map()) :: boolean()
-  defp compare(%{"current_build" => %{"state" => a}}, %{"current_build" => %{"state" => b}}) when a == b, do: false
+  defp compare(%{"current_build" => a = %{"state" => a_state}}, %{"current_build" => b = %{"state" => b_state}})
+    when a_state == b_state,
+    do: a["started_at"] >= b["started_at"]
   defp compare(%{"current_build" => %{"state" => "started"}}, %{"current_build" => %{"state" => _}}), do: true
   defp compare(%{"current_build" => %{"state" => "failed"}}, %{"current_build" => %{"state" => "started"}}), do: false
   defp compare(%{"current_build" => %{"state" => "failed"}}, %{"current_build" => %{"state" => _}}), do: true

@@ -32,7 +32,9 @@ defmodule Dashboard.Backend.StatusPage do
   end
 
   @spec compare(map(), map()) :: boolean()
-  defp compare(%{"status" => a}, %{"status" => b}) when a == b, do: false
+  defp compare(a = %{"status" => a_status}, b = %{"status" => b_status})
+    when a_status == b_status,
+    do: a["updated_at"] > b["updated_at"]
   defp compare(%{"status" => "major_outage"}, %{"status" => _}), do: true
   defp compare(%{"status" => "partial_outage"}, %{"status" => "major_outage"}), do: false
   defp compare(%{"status" => "partial_outage"}, %{"status" => _}), do: true
