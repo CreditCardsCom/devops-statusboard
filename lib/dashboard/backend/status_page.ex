@@ -18,6 +18,7 @@ defmodule Dashboard.Backend.StatusPage do
          {:ok, components} <- Poison.decode(body)
     do
       data = components
+             |> Enum.reject(fn(%{"group_id" => id}) -> id == nil end)
              |> Enum.map(&map(&1))
              |> Enum.sort(&compare/2)
 
