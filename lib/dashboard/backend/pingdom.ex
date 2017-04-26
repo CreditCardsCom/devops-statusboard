@@ -65,8 +65,7 @@ defmodule Dashboard.Backend.Pingdom do
   end
 
   @spec compare(map(), map()) :: boolean()
-  defp compare(a = %{"status" => a_status}, b = %{"status" => b_status})
-    when a_status == b_status,
+  defp compare(a = %{"status" => status}, b = %{"status" => status}),
     do: a["lastresponsetime"] >= b["lastresponsetime"]
   defp compare(%{"status" => "down"}, %{"status" => _}), do: true
   defp compare(%{"status" => _}, %{"status" => _}), do: false
