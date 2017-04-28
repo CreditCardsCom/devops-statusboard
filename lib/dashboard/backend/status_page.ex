@@ -22,7 +22,11 @@ defmodule Dashboard.Backend.StatusPage do
              |> Enum.map(&map(&1))
              |> Enum.sort(&compare/2)
 
-      {:ok, data}
+      # Guard against status page returning an empty response
+      case data do
+        [] -> {:error, data}
+        data -> {:ok, data}
+      end
     end
   end
 
