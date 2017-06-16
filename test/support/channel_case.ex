@@ -1,4 +1,4 @@
-defmodule Dashboard.Web.ChannelCase do
+defmodule DashboardWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,7 +21,7 @@ defmodule Dashboard.Web.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint Dashboard.Web.Endpoint
+      @endpoint DashboardWeb.Endpoint
     end
   end
 end
