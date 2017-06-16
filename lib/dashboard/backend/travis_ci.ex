@@ -80,4 +80,5 @@ defmodule Dashboard.Backend.TravisCI do
   defp compare(%{"current_build" => %{"state" => "errored"}}, %{"current_build" => %{"state" => "failed"}}), do: false
   defp compare(%{"current_build" => %{"state" => "errored"}}, %{"current_build" => %{"state" => _}}), do: true
   defp compare(%{"current_build" => %{"state" => "passed"}}, %{"current_build" => %{"state" => _}}), do: false
+  defp compare(_, _), do: false
 end
