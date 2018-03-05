@@ -11,7 +11,6 @@ defmodule Dashboard.Pingdom.Supervisor do
   def init(_) do
     Site.fetch_sites()
     |> Enum.map(&({Fetcher, &1}))
-    |> Enum.take(1)
     |> Supervisor.init(strategy: :one_for_one)
   end
 end
