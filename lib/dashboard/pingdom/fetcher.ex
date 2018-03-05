@@ -10,7 +10,7 @@ defmodule Dashboard.Pingdom.Fetcher do
   alias Dashboard.Pingdom.Client
   alias Dashboard.Metrics.Point
 
-  @interval 30_000
+  @interval (60_000 * 5) # 5 Minutes
   @period (60 * 60 * 24) # 24 Hours
 
   def child_spec(check) do
@@ -33,8 +33,8 @@ defmodule Dashboard.Pingdom.Fetcher do
     outages = Task.async(__MODULE__, :fetch_outages, [id])
 
     %{state |
-      metrics: Task.await(metrics),
-      outages: Task.await(outages)}
+      metrics: Task.await(metrics, 8_000),
+      outages: Task.await(outages, 8_000)}
     |> put_cache()
 
     Process.send_after(self(), :fetch, @interval)
