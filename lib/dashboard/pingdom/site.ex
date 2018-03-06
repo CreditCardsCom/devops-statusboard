@@ -13,6 +13,9 @@ defmodule Dashboard.Pingdom.Site do
 
     body
     |> Map.fetch!("checks")
+    |> Enum.filter(fn(%{"type" => type, "status" => status}) ->
+      type == "http" && status != "paused"
+    end)
     |> Enum.map(fn(map) ->
       map
       |> Map.take(~w(id name hostname))

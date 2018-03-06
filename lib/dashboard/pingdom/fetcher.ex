@@ -23,7 +23,7 @@ defmodule Dashboard.Pingdom.Fetcher do
   end
 
   def init(check) do
-    Process.send(self(), :fetch, [])
+    send(self(), :fetch)
 
     {:ok, check}
   end
@@ -53,7 +53,7 @@ defmodule Dashboard.Pingdom.Fetcher do
     |> Enum.map(fn(%{"avgresponse" => value, "starttime" => time}) ->
       Point.new(time: time, value: value)
     end)
-    |> Point.interpolate(:hour)
+    |> Point.interpolate(:half)
   end
 
   @doc """

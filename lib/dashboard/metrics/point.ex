@@ -6,8 +6,8 @@ defmodule Dashboard.Metrics.Point do
   alias Dashboard.Metrics.Point
 
   # Seconds per period
-  @supported [:hour, :quarter]
-  @periods [hour: 60 * 60, quarter: 60 * 15]
+  @supported [:hour, :half, :quarter]
+  @periods [hour: 60 * 60, half: 60 * 30, quarter: 60 * 15]
 
   @enforce_keys [:time, :value]
   defstruct [:time, :value]
