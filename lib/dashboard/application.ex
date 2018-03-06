@@ -17,7 +17,10 @@ defmodule Dashboard.Application do
   end
 
   defp configure(:pingdom) do
-    values = env(:pingdom, [:app_key, :email, :password, :account_email])
+    env_values = env(:pingdom, [:app_key, :email, :password, :account_email])
+    values =
+      Application.get_env(:dashboard, :pingdom, [])
+      |> Keyword.merge(env_values)
 
     Application.put_env(:dashboard, :pingdom, values)
   end
