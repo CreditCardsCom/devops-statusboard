@@ -7,6 +7,7 @@ defmodule Dashboard.Application do
     children = [
       DashboardWeb.Endpoint,
       Dashboard.Cache,
+      Dashboard.Pingdom.ProbeCache,
       Dashboard.Pingdom.Supervisor
     ]
 
