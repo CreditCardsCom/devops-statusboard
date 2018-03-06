@@ -8,16 +8,10 @@ elixir:
 otp_release:
   - 20.1
 
-before_deploy:
-  - MIX_ENV=prod mix release
-  - cd assets && npm run build; cd ../
-  - MIX_ENV=prod mix phx.digest
-
 script: mix test --no-start
 
 deploy:
   provider: script
   script: docker/publish.sh
-  skip_cleanup: true
   on:
     tags: true
