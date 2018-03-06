@@ -13,52 +13,37 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-## Configuring backends
+## Configuring for development
 
-### Backends used
-
-Configure which backends are currently being used.
-
-```elixir
-config :dashboard,
-  backends: [
-    Dashboard.Backend.Pingdom,
-    Dashboard.Backend.TravisCI,
-    Dashboard.Backend.StatusPage
-  ]
-```
-
-### Backend secrets
 Configuration for the backends should be added to the appropriate secret config for the environment you're targetting. Example: `dev.secret.exs`
 
 ```elixir
-config :dashboard, Dashboard.Backend.Pingdom,
+config :dashboard, :pingdom,
   email: "<your account email>",
   password: "<your account password>",
   account_email: "purchasing@creditcards.com",
   app_key: "<pingdom app key>"
-
-config :dashboard, Dashboard.Backend.TravisCI,
-  github_token: "<github token used to request the travis token>"
-
-config :dashboard, Dashboard.Backend.StatusPage,
-  token: "<api token>"
 ```
 
-## Implementing new backends
+## Runtime Configuration
 
-The `Dashboard.Backend` module defines the using macro, in order to import the default behaviour just start with the following code.
+Runtime configuration is provided by the following environment variables:
 
-```elixir
-defmodule Dashboard.Backend.<NEW BACKEND> do
-  use Dashboard.Backend
-end
-```
+##### `PINGDOM_ACCOUNT_EMAIL`
 
-## TODO
+The account owner email of your Pingdom account.
 
-- Improve returned error handling in `<backend>.load()`
-- Account for expired token in travis-ci backend
+##### `PINGDOM_APP_KEY`
+
+The application key configured in Pingdom.
+
+##### `PINGDOM_USER`
+
+The username of the user you will use to connect to the Pingdom API
+
+##### `PINGDOM_PASSWORD`
+
+The password of the user you will use to connect to the Pingdom API.
 
 ## License (MIT)
 

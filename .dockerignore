@@ -1,0 +1,6 @@
+config/*.secret.exs
+
+_build/
+deps/
+priv/static
+assets/node_modules/
