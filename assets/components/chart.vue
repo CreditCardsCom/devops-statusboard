@@ -24,15 +24,23 @@ export default {
           backgroundColor: this.latencyBackgroundColor
         }
       ]
-    }, {
+    },
+    {
+      legend: false,
       responsive: true,
       maintainAspectRatio: true,
-      legend: false,
+      responsiveAnimationDuration: 0,
+
+      animation: {
+        duration: 100
+      },
+
       elements: {
         point: {
           radius: 2
         }
       },
+
       scales: {
         xAxes: [
           {
