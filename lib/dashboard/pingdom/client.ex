@@ -1,4 +1,8 @@
 defmodule Dashboard.Pingdom.Client do
+  @moduledoc """
+  Custom implementation of `HTTPoison.Base` for Pingdom api calls.
+  """
+
   use HTTPoison.Base
 
   alias Dashboard.Pingdom.Config

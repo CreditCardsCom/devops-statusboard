@@ -12,16 +12,24 @@ defmodule Dashboard.Metrics.Point do
   @enforce_keys [:time, :value]
   defstruct [:time, :value]
 
+  @type t :: %__MODULE__{
+          time: integer(),
+          value: integer()
+        }
+
   @doc """
   Create a new %Point{} from the given keywork arguments.
 
     iex> Dashboard.Metrics.Point.new(time: 1, value: 1)
     %Dashboard.Metrics.Point{time: 1, value: 1}
   """
+  @spec new(keyword()) :: t
   def new(attrs \\ []), do: struct(__MODULE__, attrs)
 
   @doc """
+  Interpolate all points by the `period` passed.
   """
+  @spec interpolate(list(t), atom()) :: list(t)
   def interpolate(points, _period \\ :hour)
   def interpolate([], _period), do: []
   def interpolate(points, _period) when length(points) < 2, do: points
@@ -67,6 +75,7 @@ defmodule Dashboard.Metrics.Point do
     iex> Dashboard.Metrics.Point.intervals_between(1519923600, 1519930800, 60 * 60)
     [1519927200]
   """
+  @spec intervals_between(integer(), integer(), integer()) :: list(integer())
   def intervals_between(start, stop, period) when start + period < stop do
     intervals = div((stop - start), period)
 
