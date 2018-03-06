@@ -5,7 +5,7 @@ defmodule DashboardWeb.Endpoint do
 
   plug Plug.Static,
     at: "/", from: :dashboard, gzip: true,
-    only: ~w(fonts images css js favicon.ico robots.txt)
+    only: ~w(fonts images css js favicon.png)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -29,12 +29,11 @@ defmodule DashboardWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  plug Plug.Session,
-    store: :cookie,
-    key: "_dashboard_key",
-    signing_salt: "jydBM/oM"
+  #plug Plug.Session,
+  #  store: :cookie,
+  #  key: "_dashboard_key",
+  #  signing_salt: "jydBM/oM"
 
-  plug CORSPlug, origin: ["http://localhost:4200", "http://statusboard.in.creditcards.com"]
   plug DashboardWeb.Router
 
   @doc """
