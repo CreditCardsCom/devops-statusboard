@@ -4,23 +4,37 @@ defmodule Dashboard.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec
-
-    # Define workers and child supervisors to be supervised
     children = [
-      # Start the endpoint when the application starts
-      supervisor(Dashboard.Web.Endpoint, []),
-      # Start the cache store prior to loading workers
-      worker(Dashboard.Cache, []),
-      supervisor(Dashboard.WorkerManager, [])
+      DashboardWeb.Endpoint,
+      Dashboard.Cache,
+      Dashboard.Pingdom.Supervisor
     ]
 
-    # TODO: move this out into a worker init function or the like
-    :ets.new(Dashboard.Backend.TravisCI, [:named_table, :public])
+    configure(:pingdom)
 
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Dashboard.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+  defp configure(:pingdom) do
+    env_values = env(:pingdom, [:app_key, :email, :password, :account_email])
+    values =
+      Application.get_env(:dashboard, :pingdom, [])
+      |> Keyword.merge(env_values)
+
+    Application.put_env(:dashboard, :pingdom, values)
+  end
+
+  defp env(key, config_keys) do
+    upperized_key = upcase(key)
+
+    Enum.reduce(config_keys, [], fn(k, acc) ->
+      case System.get_env("#{upperized_key}_#{upcase(k)}") do
+        nil -> acc
+        value -> Keyword.put(acc, k, value)
+      end
+    end)
+  end
+
+  defp upcase(key), do: to_string(key) |> String.upcase()
 end

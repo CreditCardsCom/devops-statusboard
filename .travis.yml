@@ -4,16 +4,14 @@ services:
 
 language: elixir
 elixir:
-  - 1.4.2
+  - 1.6
 otp_release:
-  - 19.2
+  - 20.1
 
-before_deploy:
-  - MIX_ENV=prod mix release
+script: mix test --no-start
 
 deploy:
   provider: script
   script: docker/publish.sh
-  skip_cleanup: true
   on:
     tags: true
