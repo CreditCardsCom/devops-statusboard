@@ -15,7 +15,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## Configuring for development
 
-Configuration for the backends should be added to the appropriate secret config for the environment you're targetting. Example: `dev.secret.exs`
+Configuration for Pingdom should be added to the appropriate secret config for the environment you're targetting. Example: `dev.secret.exs`
 
 ```elixir
 config :dashboard, :pingdom,
