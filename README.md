@@ -1,6 +1,6 @@
-# Dashboard
+# Pingdom Statusboard
 
-[![Build Status](https://travis-ci.org/CreditCardsCom/devops-statusboard.svg?branch=master)](https://travis-ci.org/CreditCardsCom/devops-statusboard)
+[![Build Status](https://travis-ci.org/CreditCardsCom/pingdom-statusboard.svg?branch=master)](https://travis-ci.org/CreditCardsCom/pingdom-statusboard)
 
 To start your Phoenix server:
 
