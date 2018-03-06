@@ -5,8 +5,8 @@
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
+  * Install Node.js dependencies with `npm install --prefix assets`
+  * Configure your `config/dev.secret.exs`
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
@@ -21,7 +21,7 @@ Configuration for the backends should be added to the appropriate secret config 
 config :dashboard, :pingdom,
   email: "<your account email>",
   password: "<your account password>",
-  account_email: "purchasing@creditcards.com",
+  account_email: "<your primary pingdom account email>",
   app_key: "<pingdom app key>"
 ```
 
@@ -47,7 +47,7 @@ The password of the user you will use to connect to the Pingdom API.
 
 ## License (MIT)
 
-Copyright (c) 2017 CreditCards.com
+Copyright (c) 2017 - 2018 CreditCards.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
