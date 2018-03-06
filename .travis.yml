@@ -13,6 +13,8 @@ before_deploy:
   - cd assets && npm run build; cd ../
   - MIX_ENV=prod mix phx.digest
 
+script: mix test --no-start
+
 deploy:
   provider: script
   script: docker/publish.sh
