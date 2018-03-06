@@ -8,10 +8,11 @@ defmodule Dashboard.Pingdom.Fetcher do
 
   alias Dashboard.Cache
   alias Dashboard.Pingdom.Client
+  alias Dashboard.Pingdom.ProbeCache
   alias Dashboard.Metrics.Point
 
-  @interval (60_000 * 5) # 5 Minutes
-  @period (60 * 60 * 24) # 24 Hours
+  @interval (60_000 * 5) # 5 Minutes in milliseconds
+  @period (60 * 60 * 24) # 24 Hours in seconds
 
   @doc """
   Overrides default `GenServer.child_spec` to generate a unique `id` per `check.id`.
@@ -56,7 +57,9 @@ defmodule Dashboard.Pingdom.Fetcher do
   @spec fetch_metrics(integer()) :: Dashboard.Point.t
   def fetch_metrics(id) do
     from = System.system_time(:seconds) - @period
-    %{body: body, status_code: 200} = Client.get!("/summary.performance/#{id}?from=#{from}")
+    probes = ProbeCache.get_probe_ids() |> Enum.join(",")
+    %{body: body, status_code: 200} =
+      Client.get!("/summary.performance/#{id}?from=#{from}&probes=#{probes}")
 
     body
     |> get_in(["summary", "hours"])
