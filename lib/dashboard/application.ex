@@ -10,7 +10,28 @@ defmodule Dashboard.Application do
       Dashboard.Pingdom.Supervisor
     ]
 
+    configure(:pingdom)
+
     opts = [strategy: :one_for_one, name: Dashboard.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+  defp configure(:pingdom) do
+    values = env(:pingdom, [:app_key, :email, :password, :account_email])
+
+    Application.put_env(:dashboard, :pingdom, values)
+  end
+
+  defp env(key, config_keys) do
+    upperized_key = upcase(key)
+
+    Enum.reduce(config_keys, [], fn(k, acc) ->
+      case System.get_env("#{upperized_key}_#{upcase(k)}") do
+        nil -> acc
+        value -> Keyword.put(acc, k, value)
+      end
+    end)
+  end
+
+  defp upcase(key), do: to_string(key) |> String.upcase()
 end

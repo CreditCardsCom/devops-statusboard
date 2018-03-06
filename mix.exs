@@ -31,7 +31,7 @@ defmodule Dashboard.Mixfile do
     [
       {:cors_plug, "~> 1.2"},
       {:cowboy, "~> 1.0"},
-      {:distillery, "~> 1.3", only: :dev},
+      {:distillery, "~> 1.3"},
       {:gettext, "~> 0.11"},
       {:httpoison, "~> 1.0"},
       {:phoenix, "~> 1.3.0"},
