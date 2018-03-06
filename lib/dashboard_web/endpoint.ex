@@ -4,7 +4,7 @@ defmodule DashboardWeb.Endpoint do
   socket "/socket", DashboardWeb.UserSocket
 
   plug Plug.Static,
-    at: "/", from: :dashboard, gzip: false,
+    at: "/", from: :dashboard, gzip: true,
     only: ~w(fonts images css js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
