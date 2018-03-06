@@ -4,12 +4,14 @@ services:
 
 language: elixir
 elixir:
-  - 1.4.2
+  - 1.6
 otp_release:
-  - 19.2
+  - 20.1
 
 before_deploy:
   - MIX_ENV=prod mix release
+  - cd assets && npm run build; cd ../
+  - MIX_ENV=prod mix phx.digest
 
 deploy:
   provider: script
