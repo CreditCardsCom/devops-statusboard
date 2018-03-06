@@ -15,8 +15,9 @@ use Mix.Config
 # which you typically run after static files are built.
 config :dashboard, DashboardWeb.Endpoint,
   server: true,
-  on_init: {DashboardWeb.Endpoint, :load_from_system_env, []},
-  url: [host: "example.com", port: 80]
+  load_from_system_env: true,
+  url: [host: "example.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
