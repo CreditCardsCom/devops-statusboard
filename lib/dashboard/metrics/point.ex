@@ -15,7 +15,7 @@ defmodule Dashboard.Metrics.Point do
   @doc """
   Create a new %Point{} from the given keywork arguments.
 
-    iex> Dashboard.Metrics.Point.new(time: 1, value: 1) |> IO.inspect()
+    iex> Dashboard.Metrics.Point.new(time: 1, value: 1)
     %Dashboard.Metrics.Point{time: 1, value: 1}
   """
   def new(attrs \\ []), do: struct(__MODULE__, attrs)
