@@ -2,7 +2,7 @@ defmodule DashboardWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "backend:*", DashboardWeb.BackendChannel
+  channel "metrics:*", DashboardWeb.MetricsChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket,

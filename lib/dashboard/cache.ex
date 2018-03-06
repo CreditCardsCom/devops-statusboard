@@ -24,6 +24,7 @@ defmodule Dashboard.Cache do
     :ets.foldl(fn({_, v}, acc) ->
       [v | acc]
     end, [], @table)
+    |> Enum.sort_by(&(&1.name))
   end
 
   def get(key) do
@@ -76,7 +77,7 @@ defmodule Dashboard.Cache do
     @pg_group
     |> :pg2.get_members()
     |> Enum.each(fn(pid) ->
-      Process.send(pid, {:cache_update, key, value}, [])
+      send(pid, {:cache_update, key, value})
     end)
   end
 end

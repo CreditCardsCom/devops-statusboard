@@ -2,9 +2,9 @@ defmodule DashboardWeb.MetricsChannel do
   use DashboardWeb, :channel
 
   def join("metrics:updates", _, socket) do
-    push(socket, "all", Dashboard.all())
+    send(self(), :on_join)
 
-    {:ok, socket} |> IO.inspect()
+    {:ok, socket}
   end
 
   # Channels can be used in a request/response fashion
@@ -15,6 +15,14 @@ defmodule DashboardWeb.MetricsChannel do
 
   def handle_info({:cache_update, _key, value}, socket) do
     push(socket, "update", value)
+
+    {:noreply, socket}
+  end
+
+  def handle_info(:on_join, socket) do
+    Dashboard.subscribe(self())
+
+    push(socket, "all", %{checks: Dashboard.all()})
 
     {:noreply, socket}
   end
