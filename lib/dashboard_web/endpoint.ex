@@ -5,7 +5,7 @@ defmodule DashboardWeb.Endpoint do
 
   plug Plug.Static,
     at: "/", from: :dashboard, gzip: true,
-    only: ~w(fonts images css js favicon.png)
+    only: ~w(fonts images css js)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
