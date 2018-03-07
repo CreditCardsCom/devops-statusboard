@@ -68,6 +68,8 @@ export default {
 @import '~bulma';
 
 body {
+  width: 100vw;
+  min-height: 100vh;
   background: $background;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
