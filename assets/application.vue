@@ -35,9 +35,11 @@ export default {
     },
 
     updateCheck(check) {
-      const idx = this.checks.findIndex(({ id }) => check.id);
+      const idx = this.checks.findIndex(({ id }) => id === check.id);
 
-      this.$set(this.checks, idx, check);
+      if (idx !== -1) {
+        this.$set(this.checks, idx, check);
+      }
     }
   },
 
